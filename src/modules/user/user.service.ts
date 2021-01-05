@@ -1,21 +1,13 @@
 /* eslint-disable complexity */
 
-import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable, Logger } from '@nestjs/common';
-import { Cron } from '@nestjs/schedule';
 import * as jwt from 'jsonwebtoken';
-import * as moment from 'moment';
-import { Between, FindConditions, FindOneOptions } from 'typeorm';
+import { FindConditions, FindOneOptions } from 'typeorm';
 
 import { UserEntity } from '../../entities/user.entity';
-import { EmailOrPasswordIncorrectException } from '../../exceptions/email-or-password-incorrect.exception';
-import { UserNotVerifiedException } from '../../exceptions/user-not-verified.exception';
-import { UtilsService } from '../../providers/utils.service';
-import { AwsS3Service } from '../../shared/services/aws-s3.service';
 import { ConfigService } from '../../shared/services/config.service';
 import { UserRegisterDto } from '../auth/dto/UserRegisterDto';
 import { UserVerificationQueryDto } from '../auth/dto/UserVerificationQueryDto';
-import { UserDeleteDto } from './dto/UserDeleteDto';
 import { UserRepository } from './user.repository';
 @Injectable()
 export class UserService {
@@ -24,7 +16,6 @@ export class UserService {
     constructor(
         private readonly _userRepository: UserRepository,
         private readonly _configService: ConfigService,
-        private readonly _awsS3Service: AwsS3Service,
     ) {}
 
     /**
@@ -67,8 +58,6 @@ export class UserService {
             this._configService.get('JWT_SECRET_KEY'),
             { expiresIn: this._configService.get('JWT_EXPIRATION_TIME') + 's' },
         );
-
-
         if (['development', 'staging'].includes(this._configService.nodeEnv)) {
             user.verificationToken = jwtToken;
         }
@@ -79,6 +68,7 @@ export class UserService {
     async verifyUser(
         userVerificationQueryDto: UserVerificationQueryDto,
     ): Promise<UserEntity> {
+        // eslint-disable-next-line unused-imports/no-unused-vars-ts
         const { userId, iat, exp } = <any>(
             jwt.verify(
                 userVerificationQueryDto.token,
@@ -94,5 +84,4 @@ export class UserService {
         }
         return null;
     }
-
 }

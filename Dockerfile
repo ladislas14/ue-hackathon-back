@@ -14,7 +14,7 @@ RUN yarn install --prod
 
 FROM node:dubnium
 
-ARG PORT=$PORT
+ARG PORT=3000
 
 RUN mkdir -p /usr/src/app
 
@@ -27,4 +27,4 @@ COPY . /usr/src/app
 
 EXPOSE $PORT
 
-CMD yarn start:$NODE_ENV
+CMD [ "yarn", "start:prod" ]

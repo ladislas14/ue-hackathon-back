@@ -2,22 +2,11 @@
 
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import {
-    IsEmail,
-    IsEnum,
-    IsNotEmpty,
-    IsString,
-    Matches,
-} from 'class-validator';
-
-import { IsSEAEmail } from '../../../decorators/validators.decorator';
+import { IsEmail, IsNotEmpty, IsString, Matches } from 'class-validator';
 
 export class UserRegisterDto {
     @IsString()
     @IsEmail({}, { message: 'email.invalid' })
-    @IsSEAEmail({
-        message: 'Email is not a valid SEA-EU email',
-    })
     @IsNotEmpty()
     @ApiProperty()
     @Transform((email) => email.toLowerCase())

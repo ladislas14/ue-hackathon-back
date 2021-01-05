@@ -1,9 +1,6 @@
-import { MailerOptions } from '@nestjs-modules/mailer';
-import { EjsAdapter } from '@nestjs-modules/mailer/dist/adapters/ejs.adapter';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import * as dotenv from 'dotenv';
 
-import { IAwsConfig } from '../../interfaces/IAwsConfig';
 import { SnakeNamingStrategy } from '../../snake-naming.strategy';
 import { UserSubscriber } from '../entity-subscribers/user-subscriber';
 
@@ -42,10 +39,6 @@ export class ConfigService {
 
     get nodeEnv(): string {
         return this.get('NODE_ENV') || 'development';
-    }
-
-    get fallbackLanguage(): string {
-        return this.get('FALLBACK_LANGUAGE').toLowerCase();
     }
 
     get typeOrmConfig(): TypeOrmModuleOptions {
@@ -99,28 +92,6 @@ export class ConfigService {
             user: this.get('DB_USERNAME'),
             password: this.get('DB_PASSWORD'),
             database: this.get('DB_DATABASE'),
-        };
-    }
-
-    get awsS3Config(): IAwsConfig {
-        return {
-            accessKeyId: this.get('AWS_S3_ACCESS_KEY_ID'),
-            secretAccessKey: this.get('AWS_S3_SECRET_ACCESS_KEY'),
-            bucketName: this.get('S3_BUCKET_NAME'),
-            bucketRegion: this.get('S3_BUCKET_REGION'),
-        };
-    }
-
-    get mailerConfig(): MailerOptions {
-        return {
-            transport: this.get('TRANSPORT_MAIL'),
-            defaults: {
-                from: this.get('FROM_MAIL'),
-            },
-            template: {
-                dir: __dirname + this.get('TEMPLATE_DIR'),
-                adapter: new EjsAdapter(),
-            },
         };
     }
 }

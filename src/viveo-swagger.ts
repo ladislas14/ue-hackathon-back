@@ -3,7 +3,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 export function setupSwagger(app: INestApplication): void {
     const options = new DocumentBuilder()
-        .setTitle('SEA-EU Around API')
+        .setTitle('UE-Hackathon API')
         .setVersion('0.0.1')
         .addBearerAuth()
         .build();

@@ -1,1 +1,0 @@
-{"version":3,"file":"StudentProfileDto.js","sourceRoot":"","sources":["../../src/dto/StudentProfileDto.ts"],"names":[],"mappings":";;;;;;;;;;;;AAAA,6CAAsD;AAEtD,iEAA6D;AAE7D,6CAA0C;AAE1C,MAAa,iBAAkB,SAAQ,uBAAU;IAI7C,YAAY,OAA6B;QACrC,KAAK,CAAC,OAAO,CAAC,CAAC;QACf,IAAI,CAAC,MAAM,GAAG,OAAO,CAAC,MAAM,CAAC;IACjC,CAAC;CACJ;AANG;IADC,6BAAmB,EAAE;;iDACH;AAFvB,8CAQC"}
