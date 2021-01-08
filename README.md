@@ -87,46 +87,13 @@ scalingo create hackathon
 ```
 5. The next part could be done with CLI but it's easier with the admin panel of Scalingo. So go to your admin panel on [https://my.osc-fr1.scalingo.com/apps](https://my.osc-fr1.scalingo.com/apps) and then, access your created app.
 6. Create a new PostgreSQL addons on the addons page (select sandbow version).
-7. Once it's created, go to the environment page. You will be able to retrieve your PostgreSQL credentials in the SCALINGO_POSTGRESQL_URL variable. It would look like `postgres://user:password@host:port/database?sslmode=prefer`.
-8. Copy and paste the following env variable and don't forget to replace the PostgreSQL credentials with yours:
+7. Once it's created, go to the environment page. Copy and paste the following env variables:
 ```
-DB_DATABASE=database
-DB_HOST=host
-DB_PASSWORD=password
-DB_PORT=port
-DB_USERNAME=user
 JWT_EXPIRATION_TIME=3600
 JWT_SECRET_KEY=rxPhglGJWPlOW596
 NODE_ENV=production
 ```
-9. Deploy your app
+8. Deploy your app
 ```bash
 git push scalingo master
 ```
-
-
-## Getting started with frontend
-
-1. Pull the archive from the git repositoy : [https://github.com/ladislas14/ue-hackathon-front](https://github.com/ladislas14/ue-hackathon-front).
-
-2. Install Expo :
-
-```bash
-npm install -g expo-cli
-```
-
-3. Install other dependencies :
-
-```bash
-npm i
-```
-
-4. Launch the project:
-
-```bash
-npm start
-```
-
-## Getting started with backend
-
-> There is two way to run the backend : using Docker or using Node (in this case, you will need to have a runing PostgreSQL database beside).
