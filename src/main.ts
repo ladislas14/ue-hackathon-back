@@ -85,7 +85,7 @@ async function bootstrap() {
         setupSwagger(app);
     }
 
-    const port = configService.getNumber('NODE_PORT');
+    const port = configService.getNumber('PORT');
     await app.listen(port);
 
     console.info(`server running on port ${port}`);
