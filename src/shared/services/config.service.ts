@@ -1,5 +1,6 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import * as dotenv from 'dotenv';
+import { TlsOptions } from 'tls';
 
 import { SnakeNamingStrategy } from '../../snake-naming.strategy';
 import { UserSubscriber } from '../entity-subscribers/user-subscriber';
@@ -67,14 +68,19 @@ export class ConfigService {
                 return migration;
             });
         }
+
+        const sslConfig: TlsOptions = this.isProduction
+            ? {
+                  rejectUnauthorized: false,
+              }
+            : null;
+
         return {
             entities,
             migrations,
             keepConnectionAlive: true,
             type: 'postgres',
-            ssl: {
-                rejectUnauthorized: false,
-            },
+            ssl: sslConfig,
             host: this.get('DB_HOST'),
             port: this.getNumber('DB_PORT'),
             username: this.get('DB_USERNAME'),
