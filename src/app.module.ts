@@ -3,6 +3,7 @@ import './boilerplate.polyfill';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+import { AppController } from './app.controller';
 import { contextMiddleware } from './middlewares';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
@@ -20,6 +21,7 @@ import { SharedModule } from './shared/shared.module';
             inject: [ConfigService],
         }),
     ],
+    controllers: [AppController],
 })
 export class AppModule implements NestModule {
     configure(consumer: MiddlewareConsumer): MiddlewareConsumer | void {
