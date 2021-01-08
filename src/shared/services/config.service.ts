@@ -72,6 +72,9 @@ export class ConfigService {
             migrations,
             keepConnectionAlive: true,
             type: 'postgres',
+            ssl: {
+                rejectUnauthorized: false,
+            },
             host: this.get('DB_HOST'),
             port: this.getNumber('DB_PORT'),
             username: this.get('DB_USERNAME'),
