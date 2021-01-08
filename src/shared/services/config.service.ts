@@ -1,6 +1,6 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import * as dotenv from 'dotenv';
-import { TlsOptions } from 'tls';
+import { parse } from 'pg-connection-string';
 
 import { SnakeNamingStrategy } from '../../snake-naming.strategy';
 import { UserSubscriber } from '../entity-subscribers/user-subscriber';
@@ -69,18 +69,39 @@ export class ConfigService {
             });
         }
 
-        const sslConfig: TlsOptions = this.isProduction
-            ? {
-                  rejectUnauthorized: false,
-              }
-            : null;
+        const scalingoDatabaseUrl = this.get('SCALINGO_POSTGRESQL_URL');
+
+        if (scalingoDatabaseUrl) {
+            const scalingoDatabaseConfig = parse(
+                this.get('SCALINGO_POSTGRESQL_URL'),
+            );
+
+            return {
+                entities,
+                migrations,
+                keepConnectionAlive: true,
+                type: 'postgres',
+                ssl: {
+                    rejectUnauthorized: false,
+                },
+                host: scalingoDatabaseConfig.host,
+                port: parseInt(scalingoDatabaseConfig.port, 10),
+                username: scalingoDatabaseConfig.user,
+                password: scalingoDatabaseConfig.password,
+                database: scalingoDatabaseConfig.database,
+                subscribers: [UserSubscriber],
+                migrationsRun: false,
+                synchronize: true,
+                logging: this.debug,
+                namingStrategy: new SnakeNamingStrategy(),
+            };
+        }
 
         return {
             entities,
             migrations,
             keepConnectionAlive: true,
             type: 'postgres',
-            ssl: sslConfig,
             host: this.get('DB_HOST'),
             port: this.getNumber('DB_PORT'),
             username: this.get('DB_USERNAME'),
