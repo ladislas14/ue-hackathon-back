@@ -7,7 +7,6 @@ import { FindConditions, FindOneOptions } from 'typeorm';
 import { UserEntity } from '../../entities/user.entity';
 import { ConfigService } from '../../shared/services/config.service';
 import { UserRegisterDto } from '../auth/dto/UserRegisterDto';
-import { UserVerificationQueryDto } from '../auth/dto/UserVerificationQueryDto';
 import { UserRepository } from './user.repository';
 @Injectable()
 export class UserService {
@@ -58,30 +57,7 @@ export class UserService {
             this._configService.get('JWT_SECRET_KEY'),
             { expiresIn: this._configService.get('JWT_EXPIRATION_TIME') + 's' },
         );
-        if (['development', 'staging'].includes(this._configService.nodeEnv)) {
-            user.verificationToken = jwtToken;
-        }
 
         return user;
-    }
-
-    async verifyUser(
-        userVerificationQueryDto: UserVerificationQueryDto,
-    ): Promise<UserEntity> {
-        // eslint-disable-next-line unused-imports/no-unused-vars-ts
-        const { userId, iat, exp } = <any>(
-            jwt.verify(
-                userVerificationQueryDto.token,
-                this._configService.get('JWT_SECRET_KEY'),
-            )
-        );
-        const user = await this._userRepository.findOne(userId);
-
-        if (user) {
-            user.isVerified = true;
-
-            return this._userRepository.save(user);
-        }
-        return null;
     }
 }
