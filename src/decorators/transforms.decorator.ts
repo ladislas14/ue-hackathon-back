@@ -14,7 +14,7 @@ import * as _ from 'lodash';
  * @constructor
  */
 export function Trim() {
-    return Transform((value: string | string[]) => {
+    return Transform(({ value }: { value: string | string[] }) => {
         if (_.isArray(value)) {
             return value.map((v) => _.trim(v).replace(/\s\s+/g, ' '));
         }
@@ -32,7 +32,9 @@ export function Trim() {
  * @constructor
  */
 export function ToInt() {
-    return Transform((value) => parseInt(value, 10), { toClassOnly: true });
+    return Transform(({ value }: { value: string }) => parseInt(value, 10), {
+        toClassOnly: true,
+    });
 }
 
 /**
