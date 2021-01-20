@@ -2,12 +2,7 @@
 
 import { CreateDateColumn, DeleteDateColumn, UpdateDateColumn } from 'typeorm';
 
-import { UtilsService } from '../providers/utils.service';
-import { AbstractCompositeDto } from './dto/AbstractCompositeDto';
-
-export abstract class AbstractCompositeEntity<
-    T extends AbstractCompositeDto = AbstractCompositeDto
-> {
+export abstract class AbstractCompositeEntity {
     @CreateDateColumn({
         type: 'timestamp without time zone',
         name: 'created_at',
@@ -25,13 +20,4 @@ export abstract class AbstractCompositeEntity<
         name: 'deleted_at',
     })
     deletedAt: Date;
-
-    abstract dtoClass: new (
-        entity: AbstractCompositeEntity,
-        options?: any,
-    ) => T;
-
-    toDto(options?: any) {
-        return UtilsService.toDto(this.dtoClass, this, options);
-    }
 }
