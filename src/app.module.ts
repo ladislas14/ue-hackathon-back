@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { contextMiddleware } from './middlewares';
 import { AuthModule } from './modules/auth/auth.module';
+import { OrderModule } from './modules/order/order.module';
 import { ProductModule } from './modules/product/product.module';
 import { UserModule } from './modules/user/user.module';
 import { ConfigService } from './shared/services/config.service';
@@ -20,6 +21,7 @@ import { SharedModule } from './shared/shared.module';
             inject: [ConfigService],
         }),
         ProductModule,
+        OrderModule,
     ],
     controllers: [AppController],
 })
