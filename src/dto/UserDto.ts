@@ -1,20 +1,17 @@
 'use strict';
 
-import { ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
+import { Exclude, Expose } from 'class-transformer';
 
 import { AbstractDto } from '../common/dto/AbstractDto';
-import { UserEntity } from '../entities/user.entity';
 
+@Exclude()
 export class UserDto extends AbstractDto {
-    @ApiPropertyOptional()
+    @ApiProperty()
+    @Expose()
     email: string;
 
-    @ApiPropertyOptional()
+    @ApiProperty()
+    @Expose()
     onboarded: boolean;
-
-    constructor(user: UserEntity) {
-        super(user);
-        this.email = user.email;
-        this.onboarded = user.onboarded;
-    }
 }

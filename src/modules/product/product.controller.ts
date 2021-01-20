@@ -9,6 +9,13 @@ import { ProductService } from './product.service';
     model: {
         type: ProductEntity,
     },
+    params: {
+        id: {
+            field: 'id',
+            type: 'uuid',
+            primary: true,
+        },
+    },
 })
 @Controller('products')
 @ApiTags('Products')
