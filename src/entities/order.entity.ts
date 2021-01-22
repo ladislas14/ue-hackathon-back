@@ -1,7 +1,7 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { CrudValidationGroups } from '@nestjsx/crud';
 import { Exclude, Type } from 'class-transformer';
-import { IsDateString, IsOptional } from 'class-validator';
+import { IsDateString, IsOptional, IsString } from 'class-validator';
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 
 import { AbstractEntity } from '../common/abstract.entity';
@@ -33,4 +33,10 @@ export class OrderEntity extends AbstractEntity {
     @IsDateString({ groups: [CREATE, UPDATE] })
     @IsOptional({ groups: [UPDATE] })
     date: Date;
+
+    @Column({ nullable: true })
+    @ApiPropertyOptional()
+    @IsString({ groups: [CREATE, UPDATE] })
+    @IsOptional({ groups: [CREATE, UPDATE] })
+    comment: string;
 }

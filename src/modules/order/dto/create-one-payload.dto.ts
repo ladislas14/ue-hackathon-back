@@ -8,5 +8,5 @@ export class CreateOnePayloadDto {
     @ApiProperty({ type: OrderProductsEntity, isArray: true })
     @ValidateNested()
     @Type(() => OrderProductsEntity)
-    products: OrderProductsEntity[];
+    cart: OrderProductsEntity[];
 }

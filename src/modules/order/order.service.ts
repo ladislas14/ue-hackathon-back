@@ -22,7 +22,7 @@ export class OrderService extends TypeOrmCrudService<OrderEntity> {
     }): Promise<OrderEntity> {
         const order = this.repo.create();
         order.user = user;
-        order.orderProducts = dto.products;
+        order.orderProducts = dto.cart;
 
         return this.repo.save(order);
     }
