@@ -1,8 +1,4 @@
-import {
-    ClassSerializerInterceptor,
-    UnprocessableEntityException,
-    ValidationPipe,
-} from '@nestjs/common';
+import { ClassSerializerInterceptor } from '@nestjs/common';
 import { NestFactory, Reflector } from '@nestjs/core';
 import {
     ExpressAdapter,
@@ -57,7 +53,7 @@ async function bootstrap() {
 
     app.useGlobalInterceptors(new ClassSerializerInterceptor(reflector));
 
-    app.useGlobalPipes(
+    /*app.useGlobalPipes(
         new ValidationPipe({
             whitelist: true,
             transform: true,
@@ -71,7 +67,7 @@ async function bootstrap() {
                 value: false,
             },
         }),
-    );
+    );*/
 
     useContainer(app.select(AppModule), { fallbackOnErrors: true });
 

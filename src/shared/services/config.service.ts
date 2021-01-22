@@ -3,6 +3,8 @@ import * as dotenv from 'dotenv';
 import { parse } from 'pg-connection-string';
 
 import { SnakeNamingStrategy } from '../../snake-naming.strategy';
+import { OrderSubscriber } from '../entity-subscribers/order-subscriber';
+import { ProductSubscriber } from '../entity-subscribers/product-subscriber';
 import { UserSubscriber } from '../entity-subscribers/user-subscriber';
 
 export class ConfigService {
@@ -89,7 +91,11 @@ export class ConfigService {
                 username: scalingoDatabaseConfig.user,
                 password: scalingoDatabaseConfig.password,
                 database: scalingoDatabaseConfig.database,
-                subscribers: [UserSubscriber],
+                subscribers: [
+                    UserSubscriber,
+                    ProductSubscriber,
+                    OrderSubscriber,
+                ],
                 migrationsRun: false,
                 synchronize: true,
                 logging: this.debug,
@@ -107,7 +113,7 @@ export class ConfigService {
             username: this.get('DB_USERNAME'),
             password: this.get('DB_PASSWORD'),
             database: this.get('DB_DATABASE'),
-            subscribers: [UserSubscriber],
+            subscribers: [UserSubscriber, ProductSubscriber, OrderSubscriber],
             migrationsRun: false,
             synchronize: true,
             logging: this.debug,

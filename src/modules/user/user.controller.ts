@@ -1,6 +1,13 @@
 'use strict';
 
-import { Controller, UseGuards, UseInterceptors } from '@nestjs/common';
+import {
+    Controller,
+    UnprocessableEntityException,
+    UseGuards,
+    UseInterceptors,
+    UsePipes,
+    ValidationPipe,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { AuthGuard } from '../../guards/auth.guard';
@@ -13,6 +20,21 @@ import { UserService } from './user.service';
 @UseGuards(AuthGuard, RolesGuard)
 @UseInterceptors(AuthUserInterceptor)
 @ApiBearerAuth()
+@UsePipes(
+    new ValidationPipe({
+        whitelist: true,
+        transform: true,
+        dismissDefaultMessages: false,
+        errorHttpStatusCode: 422,
+        exceptionFactory: (errors) => {
+            throw new UnprocessableEntityException(errors);
+        },
+        validationError: {
+            target: false,
+            value: false,
+        },
+    }),
+)
 export class UserController {
     constructor(private _userService: UserService) {}
 }

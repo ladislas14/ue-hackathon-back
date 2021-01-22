@@ -1,8 +1,17 @@
-import { Controller } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import {
+    Controller,
+    UnprocessableEntityException,
+    UseGuards,
+} from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Crud, CrudController } from '@nestjsx/crud';
 
+import { RoleType } from '../../common/constants/role-type';
+import { Roles } from '../../decorators/roles.decorator';
 import { ProductEntity } from '../../entities/product.entity';
+import { AuthGuard } from '../../guards/auth.guard';
+import { RolesGuard } from '../../guards/roles.guard';
+import { AuthUserInterceptor } from '../../interceptors/auth-user-interceptor.service';
 import { ProductService } from './product.service';
 
 @Crud({
@@ -14,6 +23,46 @@ import { ProductService } from './product.service';
             field: 'id',
             type: 'uuid',
             primary: true,
+        },
+    },
+    routes: {
+        exclude: ['replaceOneBase', 'createManyBase'],
+        createOneBase: {
+            interceptors: [AuthUserInterceptor],
+            decorators: [
+                UseGuards(AuthGuard, RolesGuard),
+                ApiBearerAuth(),
+                Roles(RoleType.STAFF),
+            ],
+        },
+        updateOneBase: {
+            interceptors: [AuthUserInterceptor],
+            decorators: [
+                UseGuards(AuthGuard, RolesGuard),
+                ApiBearerAuth(),
+                Roles(RoleType.STAFF),
+            ],
+        },
+        deleteOneBase: {
+            interceptors: [AuthUserInterceptor],
+            decorators: [
+                UseGuards(AuthGuard, RolesGuard),
+                ApiBearerAuth(),
+                Roles(RoleType.STAFF),
+            ],
+        },
+    },
+    validation: {
+        whitelist: true,
+        transform: true,
+        dismissDefaultMessages: false,
+        errorHttpStatusCode: 422,
+        exceptionFactory: (errors) => {
+            throw new UnprocessableEntityException(errors);
+        },
+        validationError: {
+            target: false,
+            value: false,
         },
     },
 })

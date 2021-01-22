@@ -1,5 +1,6 @@
 'use strict';
 
+import { Exclude } from 'class-transformer';
 import {
     CreateDateColumn,
     DeleteDateColumn,
@@ -15,17 +16,20 @@ export abstract class AbstractEntity {
         type: 'timestamp without time zone',
         name: 'created_at',
     })
+    @Exclude()
     createdAt: Date;
 
     @UpdateDateColumn({
         type: 'timestamp without time zone',
         name: 'updated_at',
     })
+    @Exclude()
     updatedAt: Date;
 
     @DeleteDateColumn({
         type: 'timestamp without time zone',
         name: 'deleted_at',
     })
+    @Exclude()
     deletedAt: Date;
 }
