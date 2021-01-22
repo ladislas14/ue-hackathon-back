@@ -10,7 +10,7 @@ const { CREATE, UPDATE } = CrudValidationGroups;
 
 @Entity('product')
 export class ProductEntity extends AbstractEntity {
-    @Column()
+    @Column({ type: 'bigint' })
     @ApiProperty()
     @IsInt({ groups: [CREATE, UPDATE] })
     @IsOptional({ groups: [UPDATE] })

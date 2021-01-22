@@ -4,7 +4,13 @@ import {
     UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { Crud, CrudController } from '@nestjsx/crud';
+import {
+    Crud,
+    CrudController,
+    CrudRequest,
+    Override,
+    ParsedRequest,
+} from '@nestjsx/crud';
 
 import { RoleType } from '../../common/constants/role-type';
 import { Roles } from '../../decorators/roles.decorator';
@@ -70,4 +76,15 @@ import { ProductService } from './product.service';
 @ApiTags('Products')
 export class ProductController implements CrudController<ProductEntity> {
     constructor(public service: ProductService) {}
+
+    get base(): CrudController<ProductEntity> {
+        return this;
+    }
+
+    @Override()
+    async getMany(@ParsedRequest() req: CrudRequest): Promise<any> {
+        const products = await this.base.getManyBase(req);
+
+        return { products };
+    }
 }
