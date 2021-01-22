@@ -1,9 +1,14 @@
+import { ApiProperty } from '@nestjs/swagger';
+import { CrudValidationGroups } from '@nestjsx/crud';
 import { Exclude, Type } from 'class-transformer';
+import { IsDateString, IsOptional } from 'class-validator';
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 
 import { AbstractEntity } from '../common/abstract.entity';
 import { OrderProductsEntity } from './order-products.entity';
 import { UserEntity } from './user.entity';
+
+const { CREATE, UPDATE } = CrudValidationGroups;
 
 @Entity('order')
 export class OrderEntity extends AbstractEntity {
@@ -22,4 +27,10 @@ export class OrderEntity extends AbstractEntity {
     )
     @Type(() => OrderProductsEntity)
     orderProducts: OrderProductsEntity[];
+
+    @Column({ type: 'date' })
+    @ApiProperty()
+    @IsDateString({ groups: [CREATE, UPDATE] })
+    @IsOptional({ groups: [UPDATE] })
+    date: Date;
 }
