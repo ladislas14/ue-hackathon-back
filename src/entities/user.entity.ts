@@ -40,7 +40,7 @@ export class UserEntity extends AbstractEntity {
     @OneToMany(() => OrderEntity, (order) => order.user)
     orders: OrderEntity[];
 
-    @Column({ nullable: true })
+    @Column({ nullable: true, type: 'bigint' })
     @ApiPropertyOptional()
     @IsOptional()
     @IsInt()

@@ -31,7 +31,7 @@ export class ProductEntity extends AbstractEntity {
     @Transform(parseInt)
     remainingQuantity: number;
 
-    @Column()
+    @Column({ type: 'date' })
     @ApiProperty()
     @IsDateString({ groups: [CREATE, UPDATE] })
     @IsOptional({ groups: [UPDATE] })
