@@ -60,4 +60,15 @@ export class UserService {
 
         return user;
     }
+
+    async updateUser(
+        userUpdateDto: UserEntity,
+        user: UserEntity,
+    ): Promise<UserEntity> {
+        return this._userRepository.save({
+            ...user,
+            ...userUpdateDto,
+            onboarded: true,
+        });
+    }
 }

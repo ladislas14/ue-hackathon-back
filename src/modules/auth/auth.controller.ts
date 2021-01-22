@@ -26,21 +26,6 @@ import { UserRegisterDto } from './dto/UserRegisterDto';
 
 @Controller('auth')
 @ApiTags('auth')
-@UsePipes(
-    new ValidationPipe({
-        whitelist: true,
-        transform: true,
-        dismissDefaultMessages: false,
-        errorHttpStatusCode: 422,
-        exceptionFactory: (errors) => {
-            throw new UnprocessableEntityException(errors);
-        },
-        validationError: {
-            target: false,
-            value: false,
-        },
-    }),
-)
 export class AuthController {
     constructor(
         public readonly userService: UserService,
@@ -48,6 +33,21 @@ export class AuthController {
     ) {}
 
     @Post('login')
+    @UsePipes(
+        new ValidationPipe({
+            whitelist: true,
+            transform: true,
+            dismissDefaultMessages: false,
+            errorHttpStatusCode: 422,
+            exceptionFactory: (errors) => {
+                throw new UnprocessableEntityException(errors);
+            },
+            validationError: {
+                target: false,
+                value: false,
+            },
+        }),
+    )
     @HttpCode(HttpStatus.OK)
     @ApiOkResponse({
         type: LoginPayloadDto,
